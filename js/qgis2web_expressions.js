@@ -757,7 +757,7 @@ function fnc_project_color(values, context) {
 
 
 
-function exp_label__5_eval_expression(context) {
+function exp_label__4_eval_expression(context) {
     // "Растояние" || ' км'
 
     var feature = context.feature;

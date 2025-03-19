@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -21,7 +23,7 @@
             margin: 0;
         }
         </style>
-        <title>Маршрут экспедиции Усть-Мая - Ципанда 2024</title>
+        <title>Маршрут школьной экспедиции "Петропавловск Республика Саха (Якутия) - Ципанда Хабаровский край"</title>
     </head>
     <body>
         <div id="map">
@@ -36,14 +38,15 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/_1.js"></script>
         <script src="data/_2.js"></script>
         <script src="data/_3.js"></script>
         <script src="data/_4.js"></script>
         <script src="data/_5.js"></script>
-        <script src="data/_6.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -51,18 +54,18 @@
 
             if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
               highlightLayer.setStyle({
-                color: '#ebfb3d',
+                color: '#ffff00',
               });
             } else {
               highlightLayer.setStyle({
-                fillColor: '#ebfb3d',
+                fillColor: '#ffff00',
                 fillOpacity: 1
               });
             }
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[57.38076707047123,130.87154566451176],[60.73914629830918,138.66315243908488]]);
+        }).fitBounds([[57.45765430169112,131.2982755301323],[61.03761835534988,138.88199130911568]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -101,7 +104,7 @@
             return this._div;
         };
         title.update = function () {
-            this._div.innerHTML = '<h2>Маршрут экспедиции Усть-Мая - Ципанда 2024</h2>';
+            this._div.innerHTML = '<h2>Маршрут школьной экспедиции "Петропавловск Республика Саха (Якутия) - Ципанда Хабаровский край"</h2>';
         };
         title.addTo(map);
         var abstract = new L.Control({'position':'bottomright'});
@@ -116,7 +119,7 @@
             abstract.show = function () {
                 this._div.classList.remove("abstract");
                 this._div.classList.add("abstractUncollapsed");
-                this._div.innerHTML = 'Проект интерактивной веб-карты главных достопримечательностей маршрута по реке Мая "Усть-Мая - Ципанда"';
+                this._div.innerHTML = 'Общее расстояние маршрута составило около 800 км. Сложность маршрута оцениваем как средний.  Маршрут включает в себя интересные географические, исторические и редкие природные объекты.<br />Карта сделана Анастасией Дьяконовой.';
         };
         abstract.addTo(map);
         var zoomControl = L.control.zoom({
@@ -135,19 +138,19 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        map.createPane('pane_ESRITopo_0');
-        map.getPane('pane_ESRITopo_0').style.zIndex = 400;
-        var layer_ESRITopo_0 = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-            pane: 'pane_ESRITopo_0',
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
             opacity: 1.0,
-            attribution: '',
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
             minZoom: 1,
             maxZoom: 28,
             minNativeZoom: 0,
-            maxNativeZoom: 20
+            maxNativeZoom: 19
         });
-        layer_ESRITopo_0;
-        map.addLayer(layer_ESRITopo_0);
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
         function pop__1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -164,16 +167,13 @@
                         <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['OSM_ID'] !== null ? autolinker.link(feature.properties['OSM_ID'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['cat'] !== null ? autolinker.link(feature.properties['cat'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['area'] !== null ? autolinker.link(feature.properties['area'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LVL'] !== null ? autolinker.link(feature.properties['ADMIN_LVL'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -187,14 +187,14 @@
             return {
                 pane: 'pane__1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(215,25,28,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(24,146,18,1.0)',
+                fillColor: 'rgba(164,113,88,0.0)',
                 interactive: false,
             }
         }
@@ -246,6 +246,12 @@
                         <td colspan="2">' + (feature.properties['OSM_ID'] !== null ? autolinker.link(feature.properties['OSM_ID'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L1D'] !== null ? autolinker.link(feature.properties['ADMIN_L1D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L1'] !== null ? autolinker.link(feature.properties['ADMIN_L1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
                         <td colspan="2">' + (feature.properties['ADMIN_L2D'] !== null ? autolinker.link(feature.properties['ADMIN_L2D'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
@@ -264,13 +270,46 @@
                         <td colspan="2">' + (feature.properties['ADMIN_L4'] !== null ? autolinker.link(feature.properties['ADMIN_L4'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L5D'] !== null ? autolinker.link(feature.properties['ADMIN_L5D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L5'] !== null ? autolinker.link(feature.properties['ADMIN_L5'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L6D'] !== null ? autolinker.link(feature.properties['ADMIN_L6D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L6'] !== null ? autolinker.link(feature.properties['ADMIN_L6'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L7D'] !== null ? autolinker.link(feature.properties['ADMIN_L7D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L7'] !== null ? autolinker.link(feature.properties['ADMIN_L7'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L8D'] !== null ? autolinker.link(feature.properties['ADMIN_L8D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L8'] !== null ? autolinker.link(feature.properties['ADMIN_L8'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L9D'] !== null ? autolinker.link(feature.properties['ADMIN_L9D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L9'] !== null ? autolinker.link(feature.properties['ADMIN_L9'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L10D'] !== null ? autolinker.link(feature.properties['ADMIN_L10D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L10'] !== null ? autolinker.link(feature.properties['ADMIN_L10'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
                         <td colspan="2">' + (feature.properties['oktmo'] !== null ? autolinker.link(feature.properties['oktmo'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['площадь'] !== null ? autolinker.link(feature.properties['площадь'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['периметр'] !== null ? autolinker.link(feature.properties['периметр'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['okato'] !== null ? autolinker.link(feature.properties['okato'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -284,15 +323,15 @@
             return {
                 pane: 'pane__2',
                 opacity: 1,
-                color: 'rgba(240,0,0,1.0)',
+                color: 'rgba(253,191,111,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0, 
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(190,207,80,0.0)',
-                interactive: true,
+                fillColor: 'rgba(145,82,45,0.0)',
+                interactive: false,
             }
         }
         map.createPane('pane__2');
@@ -300,7 +339,7 @@
         map.getPane('pane__2').style['mix-blend-mode'] = 'normal';
         var layer__2 = new L.geoJson(json__2, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json__2',
             layerName: 'layer__2',
             pane: 'pane__2',
@@ -346,7 +385,7 @@
                         <td colspan="2">' + (feature.properties['A_CNTR'] !== null ? autolinker.link(feature.properties['A_CNTR'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['A_PLACE'] !== null ? autolinker.link(feature.properties['A_PLACE'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['A_RGN'] !== null ? autolinker.link(feature.properties['A_RGN'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['A_DSTRCT'] !== null ? autolinker.link(feature.properties['A_DSTRCT'].toLocaleString()) : '') + '</td>\
@@ -366,6 +405,9 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['oktmo'] !== null ? autolinker.link(feature.properties['oktmo'].toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['okato'] !== null ? autolinker.link(feature.properties['okato'].toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -377,17 +419,17 @@
         function style__3_0() {
             return {
                 pane: 'pane__3',
-                radius: 3.0,
+                radius: 2.4,
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(0,0,0,1.0)',
-                interactive: false,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
             }
         }
         map.createPane('pane__3');
@@ -395,7 +437,7 @@
         map.getPane('pane__3').style['mix-blend-mode'] = 'normal';
         var layer__3 = new L.geoJson(json__3, {
             attribution: '',
-            interactive: false,
+            interactive: true,
             dataVar: 'json__3',
             layerName: 'layer__3',
             pane: 'pane__3',
@@ -411,65 +453,6 @@
         bounds_group.addLayer(layer__3);
         map.addLayer(layer__3);
         function pop__4(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['OSM_ID'] !== null ? autolinker.link(feature.properties['OSM_ID'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ADMIN_LVL'] !== null ? autolinker.link(feature.properties['ADMIN_LVL'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style__4_0() {
-            return {
-                pane: 'pane__4',
-                opacity: 1,
-                color: 'rgba(255,0,0,1.0)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 2.0,
-                fillOpacity: 0,
-                interactive: false,
-            }
-        }
-        map.createPane('pane__4');
-        map.getPane('pane__4').style.zIndex = 404;
-        map.getPane('pane__4').style['mix-blend-mode'] = 'normal';
-        var layer__4 = new L.geoJson(json__4, {
-            attribution: '',
-            interactive: false,
-            dataVar: 'json__4',
-            layerName: 'layer__4',
-            pane: 'pane__4',
-            onEachFeature: pop__4,
-            style: style__4_0,
-        });
-        bounds_group.addLayer(layer__4);
-        map.addLayer(layer__4);
-        function pop__5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -517,168 +500,168 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style__5_0(feature) {
+        function style__4_0(feature) {
             switch(String(feature.properties['Растояние'])) {
                 case '5.9':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(214,103,135,1.0)',
+                color: 'rgba(96,211,163,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '6.2':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(227,76,194,1.0)',
+                color: 'rgba(125,119,204,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '13.5':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(18,74,216,1.0)',
+                color: 'rgba(210,123,161,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '21.1':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(95,215,121,1.0)',
+                color: 'rgba(232,97,223,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '33.4':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(181,77,222,1.0)',
+                color: 'rgba(24,210,227,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '35.2':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(104,179,200,1.0)',
+                color: 'rgba(232,153,49,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '44.0':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(120,238,205,1.0)',
+                color: 'rgba(133,45,200,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '46.5':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(202,69,32,1.0)',
+                color: 'rgba(221,130,124,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '49.0':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(123,207,89,1.0)',
+                color: 'rgba(56,228,71,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '51.2':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(220,194,129,1.0)',
+                color: 'rgba(16,110,234,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
                 case '85.1':
                     return {
-                pane: 'pane__5',
+                pane: 'pane__4',
                 opacity: 1,
-                color: 'rgba(62,14,235,1.0)',
+                color: 'rgba(113,234,27,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 4.0,
+                weight: 3.0,
                 fillOpacity: 0,
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane__5');
-        map.getPane('pane__5').style.zIndex = 405;
-        map.getPane('pane__5').style['mix-blend-mode'] = 'normal';
-        var layer__5 = new L.geoJson(json__5, {
+        map.createPane('pane__4');
+        map.getPane('pane__4').style.zIndex = 404;
+        map.getPane('pane__4').style['mix-blend-mode'] = 'normal';
+        var layer__4 = new L.geoJson(json__4, {
             attribution: '',
             interactive: true,
-            dataVar: 'json__5',
-            layerName: 'layer__5',
-            pane: 'pane__5',
-            onEachFeature: pop__5,
-            style: style__5_0,
+            dataVar: 'json__4',
+            layerName: 'layer__4',
+            pane: 'pane__4',
+            onEachFeature: pop__4,
+            style: style__4_0,
         });
-        bounds_group.addLayer(layer__5);
-        map.addLayer(layer__5);
-        function pop__6(feature, layer) {
+        bounds_group.addLayer(layer__4);
+        map.addLayer(layer__4);
+        function pop__5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -691,7 +674,7 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">photo</th>\
+                        <th scope="row">Фотография</th>\
                         <td>' + (feature.properties['photo'] !== null ? '<img src="images/' + String(feature.properties['photo']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
                     </tr>\
                     <tr>\
@@ -726,174 +709,260 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style__6_0(feature) {
+        function style__5_0(feature) {
             switch(String(feature.properties['Class'])) {
-                case '9':
+                case '0':
                     return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '10':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '8':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [22.799999999999997, 22.799999999999997]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '11':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '2':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [22.799999999999997, 22.799999999999997]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '7':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [15.2, 15.2]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '6':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '3':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '5':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
-                interactive: true,
-            }
-                    break;
-                case '4':
-                    return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,204,1.0)',
                 interactive: true,
             }
                     break;
                 case '1':
                     return {
-                pane: 'pane__6',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/_6.svg',
-            iconSize: [19.0, 19.0]
-        }),
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,201,180,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(143,123,165,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(178,223,138,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,234,106,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(162,96,16,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane__5',
+                shape: 'triangle',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(17,168,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(118,118,226,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '9':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(80,244,72,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '10':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,209,236,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(140,208,51,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane__6');
-        map.getPane('pane__6').style.zIndex = 406;
-        map.getPane('pane__6').style['mix-blend-mode'] = 'normal';
-        var layer__6 = new L.geoJson(json__6, {
+        map.createPane('pane__5');
+        map.getPane('pane__5').style.zIndex = 405;
+        map.getPane('pane__5').style['mix-blend-mode'] = 'normal';
+        var layer__5 = new L.geoJson(json__5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json__6',
-            layerName: 'layer__6',
-            pane: 'pane__6',
-            onEachFeature: pop__6,
+            dataVar: 'json__5',
+            layerName: 'layer__5',
+            pane: 'pane__5',
+            onEachFeature: pop__5,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style__6_0(feature));
+                return L.circleMarker(latlng, style__5_0(feature));
             },
         });
-        var cluster__6 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+        var cluster__5 = new L.MarkerClusterGroup({showCoverageOnHover: false,
             spiderfyDistanceMultiplier: 2});
-        cluster__6.addLayer(layer__6);
+        cluster__5.addLayer(layer__5);
 
-        bounds_group.addLayer(layer__6);
-        cluster__6.addTo(map);
+        bounds_group.addLayer(layer__5);
+        cluster__5.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
         var overlaysTree = [
-            {label: 'Природные достопримечательности<br /><table><tr><td style="text-align: center;"><img src="legend/_6_Гидроклин0.png" /></td><td>Гидроклин</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Уникальныенаходкинаустьяхрек1.png" /></td><td>Уникальные находки на устьях рек</td></tr><tr><td style="text-align: center;"><img src="legend/_6_ООПТЧабда2.png" /></td><td>ООПТ Чабда</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Памятниквоинаммайдинцам3.png" /></td><td>Памятник воинам-майдинцам</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Горы4.png" /></td><td>Горы</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Метеостанция5.png" /></td><td>Метеостанция</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Населённыйпункт6.png" /></td><td>Населённый пункт</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Писаницы7.png" /></td><td>Писаницы</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Наледь8.png" /></td><td>Наледь</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Пещеры9.png" /></td><td>Пещеры</td></tr><tr><td style="text-align: center;"><img src="legend/_6_Флора10.png" /></td><td>Флора</td></tr></table>', layer: cluster__6},
-            {label: 'Расстояние в км<br /><table><tr><td style="text-align: center;"><img src="legend/_5_590.png" /></td><td>5,9</td></tr><tr><td style="text-align: center;"><img src="legend/_5_621.png" /></td><td>6,2</td></tr><tr><td style="text-align: center;"><img src="legend/_5_1352.png" /></td><td>13,5</td></tr><tr><td style="text-align: center;"><img src="legend/_5_2113.png" /></td><td>21,1</td></tr><tr><td style="text-align: center;"><img src="legend/_5_3344.png" /></td><td>33,4</td></tr><tr><td style="text-align: center;"><img src="legend/_5_3525.png" /></td><td>35,2</td></tr><tr><td style="text-align: center;"><img src="legend/_5_446.png" /></td><td>44</td></tr><tr><td style="text-align: center;"><img src="legend/_5_4657.png" /></td><td>46,5</td></tr><tr><td style="text-align: center;"><img src="legend/_5_498.png" /></td><td>49</td></tr><tr><td style="text-align: center;"><img src="legend/_5_5129.png" /></td><td>51,2</td></tr><tr><td style="text-align: center;"><img src="legend/_5_85110.png" /></td><td>85,1</td></tr></table>', layer: layer__5},
-            {label: '<img src="legend/_4.png" /> Граница Хабаровского края', layer: layer__4},
-            {label: '<img src="legend/_3.png" /> Наслеги Усть-майского района', layer: layer__3},
-            {label: '<img src="legend/_2.png" /> Граница Усть-майского района', layer: layer__2},
-            {label: '<img src="legend/_1.png" /> ООПТ Чабда', layer: layer__1},
-            {label: "ESRI Topo", layer: layer_ESRITopo_0},]
+            {label: 'Природные достопримечательности<br /><table><tr><td style="text-align: center;"><img src="legend/_5_Началоэкспедиции0.png" /></td><td>Начало экспедиции</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Гидроклин1.png" /></td><td>Гидроклин</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Уникальныенаходкивустьяхрек2.png" /></td><td>Уникальные находки в устьях рек</td></tr><tr><td style="text-align: center;"><img src="legend/_5_ООПТЧабда3.png" /></td><td>ООПТ Чабда</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Памятниквоинам4.png" /></td><td>Памятник воинам</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Горы5.png" /></td><td>Горы</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Метеостанция6.png" /></td><td>Метеостанция</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Населенныепункты7.png" /></td><td>Населенные пункты</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Писаницы8.png" /></td><td>Писаницы</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Флора9.png" /></td><td>Флора</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Наледь10.png" /></td><td>Наледь</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Священноеместо11.png" /></td><td>Священное место</td></tr><tr><td style="text-align: center;"><img src="legend/_5_Пещеры12.png" /></td><td>Пещеры</td></tr></table>', layer: cluster__5},
+            {label: 'Расстояние, км<br /><table><tr><td style="text-align: center;"><img src="legend/_4_590.png" /></td><td>5,9</td></tr><tr><td style="text-align: center;"><img src="legend/_4_621.png" /></td><td>6,2</td></tr><tr><td style="text-align: center;"><img src="legend/_4_1352.png" /></td><td>13,5</td></tr><tr><td style="text-align: center;"><img src="legend/_4_2113.png" /></td><td>21,1</td></tr><tr><td style="text-align: center;"><img src="legend/_4_3344.png" /></td><td>33,4</td></tr><tr><td style="text-align: center;"><img src="legend/_4_3525.png" /></td><td>35,2</td></tr><tr><td style="text-align: center;"><img src="legend/_4_446.png" /></td><td>44</td></tr><tr><td style="text-align: center;"><img src="legend/_4_4657.png" /></td><td>46,5</td></tr><tr><td style="text-align: center;"><img src="legend/_4_498.png" /></td><td>49</td></tr><tr><td style="text-align: center;"><img src="legend/_4_5129.png" /></td><td>51,2</td></tr><tr><td style="text-align: center;"><img src="legend/_4_85110.png" /></td><td>85,1</td></tr></table>', layer: layer__4},
+            {label: '<img src="legend/_3.png" /> Наслеги Усть-Майского района', layer: layer__3},
+            {label: '<img src="legend/_2.png" /> Усть-Майский район', layer: layer__2},
+            {label: '<img src="legend/_1.png" /> Хабаровский край', layer: layer__1},
+            {label: "OSM Standard", layer: layer_OSMStandard_0, radioGroup: 'bm' },]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
             //selectorBack: false,
@@ -901,86 +970,10 @@
             //openedSymbol: '&#8863; &#x1f5c1;',
             //collapseAll: 'Collapse all',
             //expandAll: 'Expand all',
-            collapsed: false, 
+            collapsed: true,
         });
         lay.addTo(map);
-		document.addEventListener("DOMContentLoaded", function() {
-            // set new Layers List height which considers toggle icon
-            function newLayersListHeight() {
-                var layerScrollbarElement = document.querySelector('.leaflet-control-layers-scrollbar');
-                if (layerScrollbarElement) {
-                    var layersListElement = document.querySelector('.leaflet-control-layers-list');
-                    var originalHeight = layersListElement.style.height 
-                        || window.getComputedStyle(layersListElement).height;
-                    var newHeight = parseFloat(originalHeight) - 50;
-                    layersListElement.style.height = newHeight + 'px';
-                }
-            }
-            var isLayersListExpanded = true;
-            var controlLayersElement = document.querySelector('.leaflet-control-layers');
-            var toggleLayerControl = document.querySelector('.leaflet-control-layers-toggle');
-            // toggle Collapsed/Expanded and apply new Layers List height
-            toggleLayerControl.addEventListener('click', function() {
-                if (isLayersListExpanded) {
-                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
-                } else {
-                    controlLayersElement.classList.add('leaflet-control-layers-expanded');
-                }
-                isLayersListExpanded = !isLayersListExpanded;
-                newLayersListHeight()
-            });	
-			// apply new Layers List height if toggle layerstree
-			if (controlLayersElement) {
-				controlLayersElement.addEventListener('click', function(event) {
-					var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
-					if (toggleLayerHeaderPointer) {
-						newLayersListHeight();
-					}
-				});
-			}
-            // Collapsed/Expanded at Start to apply new height
-            setTimeout(function() {
-                toggleLayerControl.click();
-            }, 10);
-            setTimeout(function() {
-                toggleLayerControl.click();
-            }, 10);
-            // Collapsed touch/small screen
-            var isSmallScreen = window.innerWidth < 650;
-            if (isSmallScreen) {
-                setTimeout(function() {
-                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
-                    isLayersListExpanded = !isLayersListExpanded;
-                }, 500);
-            }  
-        });       
         setBounds();
-        var i = 0;
-        layer__1.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__1'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        var i = 0;
-        layer__2.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['NAME'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['NAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__2'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
         var i = 0;
         layer__3.eachLayer(function(layer) {
             var context = {
@@ -1000,7 +993,7 @@
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['NAME'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['NAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__4'});
+            layer.bindTooltip((exp_label__4_eval_expression(context) !== null?String('<div style="color: #323232; font-size: 8pt; font-family: \'Arial\', sans-serif;">' + exp_label__4_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__4'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -1013,35 +1006,29 @@
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((exp_label__5_eval_expression(context) !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'Bahnschrift\', sans-serif;">' + exp_label__5_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__5'});
+            layer.bindTooltip((layer.feature.properties['Название'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['Название']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__5'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        var i = 0;
-        layer__6.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['Название'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Название']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__6'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        resetLabels([layer__1,layer__2,layer__3,layer__4,layer__5,layer__6]);
+        map.addControl(new L.Control.Search({
+            layer: cluster__5,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Название'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        resetLabels([layer__3,layer__4,layer__5]);
         map.on("zoomend", function(){
-            resetLabels([layer__1,layer__2,layer__3,layer__4,layer__5,layer__6]);
+            resetLabels([layer__3,layer__4,layer__5]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer__1,layer__2,layer__3,layer__4,layer__5,layer__6]);
+            resetLabels([layer__3,layer__4,layer__5]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer__1,layer__2,layer__3,layer__4,layer__5,layer__6]);
+            resetLabels([layer__3,layer__4,layer__5]);
         });
         </script>
     </body>
